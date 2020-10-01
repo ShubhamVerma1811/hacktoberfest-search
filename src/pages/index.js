@@ -22,15 +22,16 @@ export default function IndexPage() {
   };
 
   const fetchRepos = async () => {
+    console.log(language, label)
     const url = `${baseURL}/search/issues?q=language:${language}+${label}`;
     const res = await fetch(url);
     const data = await res.json();
-
+    console.log(data);
     setRepos(data);
   };
 
   return (
-    <div className="m-10">
+    <div className="m-5">
       <h1
         className="text-4xl text-center"
         style={{
@@ -48,7 +49,7 @@ export default function IndexPage() {
             </span>
             <input
               name="field_name"
-              className=" border-2 rounded-r px-4 py-2 w-full"
+              className=" border-2 rounded-r px-4 py-2 w-full outline-none"
               type="text"
               placeholder="hacktoberfest, bug, good first issue"
               onChange={(e) => handleLabel(e)}
@@ -63,10 +64,15 @@ export default function IndexPage() {
             </span>
             <input
               name="field_name"
-              className=" border-2 rounded-r px-4 py-2 w-full"
+              className=" border-2 rounded-r px-4 py-2 w-full outline-none"
               type="text"
               placeholder="JavaScript"
               onChange={(e) => handleLanguage(e)}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  fetchRepos();
+                }
+              }}
             />
           </div>
         </div>
@@ -82,9 +88,9 @@ export default function IndexPage() {
         </div>
       </div>
 
-      <div className="flex flex-wrap mx-16 overflow-hidden ">
+      <div className="flex flex-wrap justify-evenly my-10 max-w-6xl mx-auto overflow-hidden ">
         {repos.total_count > 0 &&
-          repos.items.map((repo) => <Card repo={repo} />)}
+          repos.items.map((repo, i) => <Card key={i} repo={repo} />)}
       </div>
 
       {repos.total_count == 0 && (
