@@ -88,7 +88,7 @@ export default function IndexPage() {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-evenly my-10 max-w-6xl mx-auto overflow-hidden ">
+      <div className="flex flex-wrap justify-evenly my-10 overflow-hidden ">
         {repos.total_count > 0 &&
           repos.items.map((repo, i) => <Card key={i} repo={repo} />)}
       </div>
