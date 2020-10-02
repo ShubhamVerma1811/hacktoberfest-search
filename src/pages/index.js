@@ -16,13 +16,13 @@ export default function IndexPage() {
     let labelList = e.target.value.split(",");
     let localLabel = "";
     labelList.map((i) => {
-      localLabel += `label:"${i}"+`;
+      localLabel += `label:"${i.trim()}"+`;
     });
     setLabel(localLabel);
   };
 
   const fetchRepos = async () => {
-    console.log(language, label)
+    console.log(language, label);
     const url = `${baseURL}/search/issues?q=language:${language}+${label}`;
     const res = await fetch(url);
     const data = await res.json();
@@ -68,8 +68,8 @@ export default function IndexPage() {
               type="text"
               placeholder="JavaScript"
               onChange={(e) => handleLanguage(e)}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
                   fetchRepos();
                 }
               }}
@@ -116,7 +116,8 @@ export default function IndexPage() {
             href="https://shubhamverma.me"
           >
             Shubham Verma
-          </a>
+          </a>{" "}
+          and contributors
         </h1>
       </footer>
 

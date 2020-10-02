@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Label from './label/label';
+import Label from "./label/label";
 
 const Card = ({ repo }) => {
   return (
@@ -37,7 +37,7 @@ const Card = ({ repo }) => {
           </div>
 
           <div className="flex flex-wrap">
-            {repo.labels.map((label,i) => (
+            {repo.labels.map((label, i) => (
               <Label key={i} label={label} />
             ))}
           </div>
