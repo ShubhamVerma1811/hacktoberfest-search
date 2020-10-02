@@ -7,26 +7,36 @@ export default function IndexPage() {
   const [repos, setRepos] = useState({});
   const [page, setPage] = useState(1);
   const [label, setLabel] = useState("");
+  
 
   const handleLanguage = (e) => {
     setLanguage(e.target.value);
   };
 
   const handleLabel = (e) => {
-    let labelList = e.target.value.split(",");
-    let localLabel = "";
-    labelList.map((i) => {
-      localLabel += `label:"${i}"+`;
-    });
-    setLabel(localLabel);
+    setLabel(e.target.value);
   };
 
   const fetchRepos = async () => {
-    console.log(language, label)
-    const url = `${baseURL}/search/issues?q=language:${language}+${label}`;
+    const labelList = label.split(",");
+    let labelQuery = labelList.reduce((acc, label, i) => {
+      label = label.replace(/^\s+|\s+$/g,''); // Trime spaces
+      if (i === labelList.length - 1) return acc + `label:"${label}"`;
+      return acc + `label:"${label}"+`
+    }, "")
+    labelQuery = labelQuery.replaceAll(" ", "%20");
+
+    const languageList = language.split(",");
+    let languageQuery = languageList.reduce((acc, language, i) => {
+      language = language.replace(/^\s+|\s+$/g,''); // Trim spaces
+      if (i === languageList.length-1) return acc + `language:${language}`;
+      return acc + `language:${language}+`;
+    }, "")
+    languageQuery = languageQuery.replaceAll(" ", "%20");
+    
+    const url = `${baseURL}/search/issues?q=${languageQuery}+${labelQuery}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     setRepos(data);
   };
 
