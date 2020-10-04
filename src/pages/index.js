@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Card from "../components/Card";
 
+import { shuffleArray } from '../utils/shuffleArray';
+
 export default function IndexPage() {
   const baseURL = "https://api.github.com";
-  const [language, setLanguage] = useState("");
+  const [languages, setLanguages] = useState("");
   const [repos, setRepos] = useState({});
   const [page, setPage] = useState(1);
   const [label, setLabel] = useState("");
   
 
   const handleLanguage = (e) => {
-    setLanguage(e.target.value);
+    setLanguages(e.target.value);
   };
 
   const handleLabel = (e) => {
@@ -24,19 +26,28 @@ export default function IndexPage() {
       if (i === labelList.length - 1) return acc + `label:"${label}"`;
       return acc + `label:"${label}"+`
     }, "")
-    labelQuery = labelQuery.replaceAll(" ", "%20");
 
-    const languageList = language.split(",");
-    let languageQuery = languageList.reduce((acc, language, i) => {
-      language = language.replace(/^\s+|\s+$/g,''); // Trim spaces
-      if (i === languageList.length-1) return acc + `language:${language}`;
-      return acc + `language:${language}+`;
-    }, "")
-    languageQuery = languageQuery.replaceAll(" ", "%20");
+    const languageList = languages.split(",").map(lang => lang.trim());
+    console.log(languageList)
     
-    const url = `${baseURL}/search/issues?q=${languageQuery}+${labelQuery}`;
-    const res = await fetch(url);
-    const data = await res.json();
+    const data = {
+      items: [],
+      total_count: 0
+    }
+    for (let i = 0; i < languageList.length; i++) {
+      try {
+        const language = languageList[i];
+        const url = encodeURI(`${baseURL}/search/issues?q=language:${language}+${labelQuery}`);
+        console.log(url);
+        const res = await fetch(url);
+        const newData = await res.json();
+        data.items = [...data.items, ...newData.items];
+        data.total_count += newData.total_count;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    shuffleArray(data);
     setRepos(data);
   };
 
