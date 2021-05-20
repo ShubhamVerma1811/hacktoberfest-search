@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -22,6 +22,12 @@ class MyDocument extends Document {
             href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
             rel="stylesheet"
           ></link>
+          <script
+            async
+            defer
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_UUID}
+            src={NEXT_PUBLIC_UMAMI_URI}
+          ></script>
         </Head>
         <body>
           <Main />
