@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "format": "prettier --write src/**/*.{jsx,js,html,css,scss}",
-    "dev": "npm run format && next",
+    "dev": "next",
     "build": "next build",
     "start": "next start"
   },

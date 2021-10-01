@@ -10,11 +10,11 @@ const Card = ({ repo }) => {
             <div>
               <i className="text-orange-500"></i>
               <span className="font-bold text-gray-700 text-lg w-4/6">
-                {repo.title}
+                {repo?.title}
               </span>
             </div>
             <div className="w-20">
-              {repo.state === "closed" ? (
+              {repo?.state === "closed" ? (
                 <button>
                   Status{" "}
                   <i className="fa fa-times-circle text-red-500 hover:text-red-600 transition duration-150"></i>
@@ -29,7 +29,7 @@ const Card = ({ repo }) => {
           </div>
 
           <div className="py-5 text-gray-600">
-            {repo.body.length > 0 ? (
+            {repo?.body?.length > 0 ? (
               repo.body.substr(0, 100) + "..."
             ) : (
               <p>No description provided</p>
@@ -37,13 +37,13 @@ const Card = ({ repo }) => {
           </div>
 
           <div className="flex flex-wrap">
-            {repo.labels.map((label, i) => (
+            {repo?.labels?.map((label, i) => (
               <Label key={i} label={label} />
             ))}
           </div>
 
           <div className="py-4 flex justify-end ">
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+            <a href={repo?.html_url} target="_blank" rel="noopener noreferrer">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
                 Visit Issue
               </button>
